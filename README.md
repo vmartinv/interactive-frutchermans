@@ -27,6 +27,6 @@ B C
 ```
 # Controls
 
-Run this to learn of to use this program:
+Run this to learn how to use this program:
 
 > python2 drawgraph.py -h
