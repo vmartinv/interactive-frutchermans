@@ -29,7 +29,7 @@ class pto():
             return pto(self.x*other.x, self.y*other.y)
         else:
             return pto(self.x*other, self.y*other) #scalar multiplication
-    def __div__(self, n):
+    def __truediv__(self, n):
         return pto(self.x/n, self.y/n)
     def len(self):
         return sqrt(self.x**2+self.y**2) #Euclidean norm
@@ -37,7 +37,8 @@ class pto():
 #Auxiliar functions
 def totuple(p):
     return (int(p.x), int(p.y))
-def fromtuple((x,y)):
+def fromtuple(p):
+    x, y = p
     return pto(x, y)
 def dist(p, q):
     return (q-p).len()    
@@ -124,9 +125,9 @@ class LayoutGraph():
                     else:
                         self.fixed={v:True for v in self.V}
                 elif evento.key==pygame.K_s:#prints graph
-                    print len(self.V)
-                    print '\n'.join(v for v in self.V)
-                    print '\n'.join("{0} {1}".format(x,y) for (x,y) in self.E)
+                    print(len(self.V))
+                    print('\n'.join(v for v in self.V))
+                    print('\n'.join("{0} {1}".format(x,y) for (x,y) in self.E))
         
     def draw(self):
         ''' Dibuja (o actualiza) el estado del grafo en pantalla'''
@@ -149,11 +150,12 @@ class LayoutGraph():
         pygame.display.flip()
         self.reloj.tick(50) #frames per second
 
-    def layout(self, (V,E)):
+    def layout(self, G):
         '''
         Aplica el algoritmo de Fruchtermann-Reingold para obtener (y mostrar) 
         un layout        
         '''
+        V, E = G
         self.V=set(V)
         self.E={(x,y) if x>y else (y,x) for (x,y) in E}
         self.gravedad=True
@@ -233,7 +235,7 @@ def leerGrafo(file=sys.stdin):
     if not npar:
         return ([],[])
     n=int(npar)
-    nodos = [file.readline().strip() for x in xrange(n)]
+    nodos = [file.readline().strip() for x in range(n)]
     aristas = [line.strip().split() for line in file if len(line)>1]
     return (nodos, aristas)
 
