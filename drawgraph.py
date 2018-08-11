@@ -49,6 +49,14 @@ def next_string(s):
     else:
         return 'A' * (len(s) + 1)
 
+def text_to_screen(screen, text, x, y, size = 50,
+            color = (200, 200, 200), font_type = 'arial.ttf'):
+    text = str(text)
+    font = pygame.font.Font(font_type, size)
+    text = font.render(text, True, color)
+    text_rect = text.get_rect(center=(x, y))
+    screen.blit(text, text_rect)
+
 class LayoutGraph():
     def __init__(self, c1, c2, W, L, full):
         '''    
@@ -147,6 +155,7 @@ class LayoutGraph():
                 color=BLANCO
             pygame.gfxdraw.filled_circle(self.pantalla, int(self.pos[v].x), int(self.pos[v].y), self.radio,  color)
             pygame.gfxdraw.aacircle(self.pantalla, int(self.pos[v].x), int(self.pos[v].y), self.radio,  color)#anti aliased border
+            text_to_screen(self.pantalla, v, int(self.pos[v].x), int(self.pos[v].y)-self.radio*2, size=14)
         pygame.display.flip()
         self.reloj.tick(50) #frames per second
 
